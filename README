@@ -1,0 +1,50 @@
+components:
+- name: find-bus-export-data
+  description: exports TFL data to GAE
+  type: Java maven project
+
+- name: findbus-service
+  description: webservice API. POST/GET bus data
+  type: Python on GAE
+
+---------------------
+
+Special requirements:
+
+1. The Java project requires jcoord:
+- http://www.jstott.me.uk/jcoord/#download
+
+Install jcoord into your maven repository:
+bash$ mvn install:install-file -Dfile=/path/to/jcoord-1.0.jar -DgroupId=jcoord -DartifactId=jcoord -Dversion=1.0 -Dpackaging=jar
+
+2. The Python App uses GeoModel:
+http://pypi.python.org/pypi/geomodel
+
+Nothing to do here, I've already built it as a library it and sits in the findbus-service source tree.
+
+--------------------
+
+Running the exporter locally:
+
+1. Run GAE: bash$ dev_appserver.py findbus-service
+2. Run the exporter main class. Conmmand line: bash$ mvn compile exec:java -Dexec.mainClass="findbus.ExportBusData"
+  (or just run the main class in Eclipse)
+
+* Configure the main class ExportBusData to point to live GAE once ready to export to live.
+
+--------------------
+
+Service API:
+
+- url: POST /bus_stop
+  entity: code=B1034&name=BAKER%20STREET&route=205&long=51.517663&lat=-0.119833
+
+- url: GET /bus_stop/@location/51.517663,-0.119833
+  description: find bus stops within 5 miles from geo point
+
+- url: GET /bus_stop/@location/-0.119833,-0.119833/205
+  description: find bus stops within 5 miles from geo point which the 205 bus stops
+
+- url: GET /bus_stop/B1034
+  description: get all data for this bus stop
+

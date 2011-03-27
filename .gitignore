@@ -1,0 +1,11 @@
+# Eclipse project files
+.classpath
+.project
+.settings/
+.metadata/
+
+# Maven build artifacts
+target/
+
+# Python compiled files
+*.pyc
