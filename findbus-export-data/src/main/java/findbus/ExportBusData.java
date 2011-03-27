@@ -106,9 +106,8 @@ public class ExportBusData {
         count++;
 
         System.out.print("*");
-        if (count % 100 == 0) {
+        if (count % 100 == 0)
           System.out.println(format(" --> %d complete", count));
-        }
       }
     } catch (Exception e) {
       System.out.println(e);
