@@ -20,7 +20,7 @@ bash$ mvn install:install-file -Dfile=/path/to/jcoord-1.0.jar -DgroupId=jcoord -
 2. The Python App uses GeoModel:
 http://pypi.python.org/pypi/geomodel
 
-Nothing to do here, I've already built it as a library it and sits in the findbus-service source tree.
+Nothing to do here, I've already built it as a library and it sits in the findbus-service source tree.
 
 --------------------
 
