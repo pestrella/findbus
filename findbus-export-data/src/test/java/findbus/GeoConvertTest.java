@@ -5,7 +5,7 @@ import org.junit.Test;
 import uk.me.jstott.jcoord.*;
 
 /**
- * @author paolo.estrella@gmail.com
+ * @author pestrella
  */
 public class GeoConvertTest {
   @Test

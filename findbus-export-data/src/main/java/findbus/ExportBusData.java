@@ -19,7 +19,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * @author paolo.estrella@gmail.com
+ * @author pestrella
  */
 public class ExportBusData {
   public static final String HOST = "http://localhost:8080";

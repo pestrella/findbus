@@ -13,7 +13,7 @@ import org.junit.*;
 import java.io.*;
 
 /**
- * @author paolo.estrella@gmail.com
+ * @author pestrella
  */
 public class PostBusStopTest {
   @Test
