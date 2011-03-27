@@ -45,7 +45,7 @@ class BusStopController(webapp.RequestHandler):
                 return
 
             geopoint = coord.split('%2C')
-            self.response.out.write(get_nearest(geopoint[0], geopoint[1], bus_no))
+            self.response.out.write(self.get_nearest(geopoint[0], geopoint[1], bus_no))
             return
 
         code = context
@@ -64,25 +64,25 @@ class BusStopController(webapp.RequestHandler):
 
         self.response.out.write(json.dumps(as_json, encoding='UTF-8'))
 
-def get_nearest(latitude, longitude, bus_no=None):
-    base_query = db.Query(BusStop)
-    if (bus_no != None):
-        base_query = base_query.filter('routes = ', bus_no)
+    def get_nearest(self, latitude, longitude, bus_no=None):
+        base_query = db.Query(BusStop)
+        if (bus_no != None):
+            base_query = base_query.filter('routes = ', bus_no)
 
-    bus_stops = BusStop.proximity_fetch(
-        base_query,
-        db.GeoPt(float(latitude), float(longitude)),
-        max_results=10,
-        max_distance=8046 # default 5 miles
-    )
-    all_as_json = []
-    for bus_stop in bus_stops:
-        as_json = {}
-        as_json['code'] = bus_stop.code
-        as_json['name'] = bus_stop.name
-        as_json['routes'] = bus_stop.routes
-        as_json['latitude'] = bus_stop.location.lat
-        as_json['longitude'] = bus_stop.location.lon
-        all_as_json.append(as_json)
+        bus_stops = BusStop.proximity_fetch(
+            base_query,
+            db.GeoPt(float(latitude), float(longitude)),
+            max_results=10,
+            max_distance=8046 # default 5 miles
+        )
+        all_as_json = []
+        for bus_stop in bus_stops:
+            as_json = {}
+            as_json['code'] = bus_stop.code
+            as_json['name'] = bus_stop.name
+            as_json['routes'] = bus_stop.routes
+            as_json['latitude'] = bus_stop.location.lat
+            as_json['longitude'] = bus_stop.location.lon
+            all_as_json.append(as_json)
 
-    return json.dumps(all_as_json, "UTF-8")
+        return json.dumps(all_as_json, "UTF-8")
