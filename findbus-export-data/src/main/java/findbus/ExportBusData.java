@@ -1,28 +1,31 @@
 package findbus;
 
-import static java.lang.Integer.*;
-import static java.lang.String.*;
-import static org.apache.commons.io.IOUtils.*;
-import static org.apache.commons.lang.StringUtils.*;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.format;
+import static org.apache.commons.io.IOUtils.readLines;
+import static org.apache.commons.lang.StringUtils.trim;
 
-import org.apache.commons.csv.*;
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.*;
-import org.apache.http.impl.client.*;
-import org.apache.http.impl.conn.tsccm.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
-import uk.me.jstott.jcoord.*;
+import org.apache.commons.csv.CSVUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 
-import java.io.*;
-import java.util.*;
+import uk.me.jstott.jcoord.LatLng;
+import uk.me.jstott.jcoord.OSRef;
 
 /**
  * @author pestrella
  */
 public class ExportBusData {
-  public static final String HOST = "http://localhost:8080";
+  public static final String HOST = "http://find-bus.appspot.com";
 
   public HttpClient getHttpClient() {
     return new DefaultHttpClient(new ThreadSafeClientConnManager());

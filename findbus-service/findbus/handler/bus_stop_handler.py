@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import json
+from django.utils import simplejson as json
 import urllib
 import wsgiref.handlers
 from google.appengine.ext import webapp
