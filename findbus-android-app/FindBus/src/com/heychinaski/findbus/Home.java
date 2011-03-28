@@ -1,24 +1,20 @@
 package com.heychinaski.findbus;
 
-import java.util.List;
+import android.app.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.location.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
 
-import android.app.ProgressDialog;
-import android.app.TabActivity;
-import android.location.Location;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TabHost;
+import com.google.android.maps.*;
 
-import com.heychinaski.findbus.model.Stop;
-import com.heychinaski.findbus.service.LocationHelper;
-import com.heychinaski.findbus.service.StopService;
-import com.heychinaski.findbus.ui.AllHomeListAdapter;
-import com.heychinaski.findbus.ui.RoutesListAdapter;
-import com.heychinaski.findbus.ui.StopsListAdapter;
+import com.heychinaski.findbus.model.*;
+import com.heychinaski.findbus.service.*;
+import com.heychinaski.findbus.ui.*;
+
+import java.util.*;
 
 public class Home extends TabActivity {
 	private static final long MAX_LOCATION_WAIT_SECS = 20;
@@ -42,11 +38,11 @@ public class Home extends TabActivity {
 		stopsList = (ListView) findViewById(R.id.stops_list);
 		busList = (ListView) findViewById(R.id.bus_list);
 
-
 		// add views to tab host
 		tabHost.addTab(tabHost.newTabSpec("All").setIndicator("All").setContent(R.id.all_list));
 		tabHost.addTab(tabHost.newTabSpec("Stops").setIndicator("Stops").setContent(R.id.stops_list));
 		tabHost.addTab(tabHost.newTabSpec("Buses").setIndicator("Buses").setContent(R.id.bus_list));
+		tabHost.addTab(tabHost.newTabSpec("Map").setIndicator("Map").setContent(new Intent().setClass(this, MapViewActivity.class)));
 
 		stopService = new StopService();
 		load();
@@ -91,6 +87,7 @@ public class Home extends TabActivity {
 		}
 		
 		protected List<Stop> doInBackground(Location ... locations) {
+		  ObjectCache.put(R.string.location, locations[0]);
 			return stopService.loadLocalStops(locations[0].getLatitude(), locations[0].getLongitude());
 		}
 
@@ -98,7 +95,9 @@ public class Home extends TabActivity {
 			allList.setAdapter(new AllHomeListAdapter(getApplicationContext(), stops));
 			stopsList.setAdapter(new StopsListAdapter(getApplicationContext(), stops));
 			busList.setAdapter(new RoutesListAdapter(getApplicationContext(), stops));
-			
+
+			ObjectCache.put(R.id.mapview, stops);
+
 			progressDialog.dismiss();
 		}
 	}

@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, Home!</string>
     <string name="app_name">FindBus</string>
+    <string name="location">location</string>
 </resources>

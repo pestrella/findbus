@@ -1,5 +1,7 @@
 package com.heychinaski.findbus.service;
 
+import static java.lang.String.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,19 +23,16 @@ import com.heychinaski.findbus.model.Stop;
 
 public class StopService {
 	
-	/** Just hit twitter for now */
-	private String url = "http://find-bus.appspot.com/bus_stop/@location/51.506559,-0.265759";
-	
 	private static String DUMMY_DATA = "[{'routes': ['7', '15', '23'], 'latitude': 51.516370000000002, 'code': '14020', 'name': 'PADDINGTON STATION ', 'longitude': -0.174314}, {code: 'R0853', name: 'SOMEWHERE ELSE', routes: ['30', '205'], latitude: -0.119833, longitude: 51.517663}]";
 
-	public List<Stop> loadLocalStops(double longitude, double latitude) {
+	public List<Stop> loadLocalStops(double latitude, double longitude) {
 		List<Stop> stops = null;
 		
 		InputStream content = null;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response;
 		try {
-			response = httpclient.execute(new HttpGet(url));
+			response = httpclient.execute(new HttpGet(format("http://find-bus.appspot.com/bus_stop/@location/%f,%f", latitude, longitude)));
 			content = response.getEntity().getContent();
 
 			BufferedReader r = new BufferedReader(new InputStreamReader(content));
