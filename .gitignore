@@ -7,5 +7,9 @@
 # Maven build artifacts
 target/
 
+# Android generated files
+gen/
+bin/
+
 # Python compiled files
 *.pyc
